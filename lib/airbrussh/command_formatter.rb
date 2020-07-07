@@ -66,9 +66,18 @@ module Airbrussh
       to_s.sub(%r{^/usr/bin/env }, "")
     end
 
-    def number
-      format("%02d", @position.to_i + 1)
-    end
+    def hostname
+     host = @delegate_sd_obj.options
+     hostname = host[:host].hostname
+     "[#{hostname}]"
+   end
+
+   def number
+     show_host = fetch(:output_hostname)
+     label = format("%02d", @position.to_i + 1)
+     label = hostname if show_host
+     label
+   end
 
     def success_message
       "✔ #{number} #{user_at_host}"
